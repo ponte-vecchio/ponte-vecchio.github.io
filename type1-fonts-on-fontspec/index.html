@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" itemscope itemtype="http://schema.org/Blog">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link rel="stylesheet" href="https://leothelion.wtf/site.css">
+  <title>Ul-linga - Glueing PostScript Type 1 fonts with fontspec</title>
+  
+  
+
+  <meta name="description" itemprop="about" content="Shallow depths of Leo&#x27;s mind">
+  <meta name="keywords" itemprop="keywords" content="zola, theme, retro, hacking">
+  <meta name="author" itemprop="author" content="leothelion">
+  <meta itemprop="headline" content="Ul-linga">
+  <meta itemprop="copyrightYear" content="2025">
+
+  <link rel="icon" href="https://leothelion.wtf/images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="57x57" href="https://leothelion.wtf/images/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="https://leothelion.wtf/images/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="https://leothelion.wtf/images/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://leothelion.wtf/images/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="https://leothelion.wtf/images/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://leothelion.wtf/images/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="https://leothelion.wtf/images/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://leothelion.wtf/images/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://leothelion.wtf/images/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="https://leothelion.wtf/images/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://leothelion.wtf/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="https://leothelion.wtf/images/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://leothelion.wtf/images/favicon-16x16.png">
+  <link rel="manifest" href="https://leothelion.wtf/images/manifest.json">
+  <meta name="msapplication-TileColor" content="#27564e">
+  <meta name="msapplication-TileImage" content="https://leothelion.wtf/images/ms-icon-144x144.png">
+  <meta name="theme-color" content="#27564e">
+
+  <meta property="og:title" content="Ul-linga - Glueing PostScript Type 1 fonts with fontspec">
+  <meta property="og:description" content="I describe how to manipulate old font files with fontspec for your typographic pleasure">
+  <meta property="og:url" content="https:&#x2F;&#x2F;leothelion.wtf/type1-fonts-on-fontspec">
+  <meta property="og:site_name" content="Ul-linga">
+  
+  <meta property="og:image" content="">
+  
+  <meta name="twitter:card" content="summary">
+  
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"></button>
+            <a class="brand" href="https:&#x2F;&#x2F;leothelion.wtf">Ul-linga</a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                
+                  
+                <!-- <li class="">
+                  <a href="https:&#x2F;&#x2F;leothelion.wtf/categories"><span>Categories</span></a> -->
+                    <li>
+                      <a href="categories"><span>Categories</span></a>
+                    </li>
+                  
+                <!-- <li class="">
+                  <a href="https:&#x2F;&#x2F;leothelion.wtf/tags"><span>Tags</span></a> -->
+                    <li>
+                      <a href="tags"><span>Tags</span></a>
+                    </li>
+                  
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      Teaching<b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="PHR2021"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: -0.125em; margin-right: 0.25em;"><path d="M8.5 2a.5.5 0 0 0-1 0v6h-1.5a.5.5 0 0 0 0 1H8v2.5a.5.5 0 0 0 1 0V9h1.5a.5.5 0 0 0 0-1H9V2zm1.25 8.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zm0-4.5a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zM12 14c0 1.1-2.24 2-5 2s-5-.9-5-2 2.24-2 5-2 5 .9 5 2zm-5-13c3.53 0 5 1.61 5 2.5S10.53 6 7 6 2 4.39 2 3.5 3.47 1 7 1zm0 .5C4.41 1.5 2.5 2.37 2.5 3.5S4.41 5.5 7 5.5 11.5 4.63 11.5 3.5 9.59 1.5 7 1.5z"/></svg><span>PHR2021</span></a></li>
+                      <li><a href="FIT5145"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align: -0.125em; margin-right: 0.25em;"><path d="M0 0h1v15h15v1H0V0Zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5Z"/></svg><span>FIT5145</span></a></li>
+                    </ul>
+                  </li>
+                    
+                
+              </ul>
+            </div>
+        </div>
+    </div>
+  </nav>
+
+  <div class="container navmargin">
+    <header class="jumbotron subhead" id="overview">
+      
+<p class="lead">
+  <span>&gt;&gt;</span>
+  <a href="https:&#x2F;&#x2F;leothelion.wtf">Home</a>
+  
+    <span class="divider">/</span>
+    
+    <a class="category" href="https://leothelion.wtf/categories/latex/">latex</a>
+    
+    
+    <span class="divider">/</span>
+      
+        <a href="https://leothelion.wtf/tags/fontspec/">fontspec</a>,
+      
+        <a href="https://leothelion.wtf/tags/fonts/">fonts</a>
+      
+    
+  
+</p>
+
+      
+<div class="page-header">
+  <h1>Glueing PostScript Type 1 fonts with fontspec</h1>
+</div>
+
+      
+<p class="text-right">
+  <span class="label label-success">
+    &becaus;
+    
+      leothelion
+    
+  </span>
+  <span class="label label-success">&there4; 2023-07-09</span>
+  <span class="label label-success">&infin; 7'</span>
+</p>
+
+    </header>
+    
+    <div class="row-fluid">
+
+      <div class="span9 bs-docs-sidebar">
+      
+<h1 id="background"><a class="zola-anchor" href="#background" aria-label="Anchor link for: background">Background</a></h1>
+<h2 id="context"><a class="zola-anchor" href="#context" aria-label="Anchor link for: context">Context</a></h2>
+<p>I regularly help people out with their <span class="latex">L<sup>A</sup>T<sub>E</sub>X</span> grievances, and one occasion I was met with this question:</p>
+<blockquote>
+I’m trying to use LXfonts in Lua<span class="tex">T<sub>E</sub>X</span>, but it’s so outdated that it only has Type 1 fonts, and even among those I don’t know where to find the font containing the regular characters. The documentation doesn’t help either since it’s outdated too. Is there a direct or easier way of using its package on Lua<span class="tex">T<sub>E</sub>X</span>?
+</blockquote>
+<p>I’m an avid user of <a href="https://ctan.org/pkg/fontspec">fontspec</a> and have written a <a href="https://github.com/ponte-vecchio/otf2fontspec">CLI tool</a> to ease its use of and incorporating the knowledge of OpenType fonts, but I’ve never tried to load Type 1 fonts through fontspec.</p>
+<p>How <em>do you</em> manipulate Type 1 fonts with fontspec in Lua<span class="tex">T<sub>E</sub>X</span>? This will be the topic of this post.</p>
+<h2 id="on-type-1-fonts"><a class="zola-anchor" href="#on-type-1-fonts" aria-label="Anchor link for: on-type-1-fonts">On Type 1 fonts</a></h2>
+<p>First of all, there’s a lot going on when it comes to fonts and <span class="tex">T<sub>E</sub>X</span>. For the taskmasters of <span class="latex">L<sup>A</sup>T<sub>E</sub>X</span>, nitty-gritty details of the fonts we load are not of significant concern. Often are font selections limited to a few popular choices----pxfonts, stix, or the plain old Computer Modern. Perhaps we take for granted the fonts we load, and the unseen iceberg of complexity in older fonts like <code>lxfonts</code>. This is particularly true for when we are using pdf<span class="tex">T<sub>E</sub>X</span>----where the fonts we load are in some obscure format many of us have no idea about, such as <code>.pfa</code>, <code>.pfb</code> or <code>.tfm</code>. When we venture into the <code>fonts</code> directory of our <span class="tex">T<sub>E</sub>X</span> distribution, we are met with a peculiar list, particularly for the incognoscenti:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">$</span><span> ls
+</span><span style="color:#bf616a;">afm</span><span> cid cmap enc lig map misc ofm opentype ovf ovp pk sfd source tfm truetype type1 type3 vf
+</span></code></pre>
+<p>Aside from the obvious <code>truetype</code> and <code>opentype</code>, what do the other ones mean? This 2014 post from <a href="https://tex.stackexchange.com/a/205229">TeX.SE</a> gave me a good overview of what some of these might be:</p>
+<table><thead><tr><th style="text-align: right">Name</th><th style="text-align: left">Description</th></tr></thead><tbody>
+<tr><td style="text-align: right"><code>afm</code></td><td style="text-align: left">Adobe Font Metrics, a text file that contains information about the metrics of a font.</td></tr>
+<tr><td style="text-align: right"><code>cid</code></td><td style="text-align: left">a format for describing fonts that contains glyphs for CJK characters, provided by fontforge (see e.g., <a href="https://github.com/fontforge/fontforge/blob/master/contrib/cidmap/src/README">here</a>)</td></tr>
+<tr><td style="text-align: right"><code>cmap</code></td><td style="text-align: left">seems to contain <b>c</b>haracter <b>map</b>pings, particularly for CJK fonts.</td></tr>
+<tr><td style="text-align: right"><code>enc</code></td><td style="text-align: left">contains encoding files, which map character code to glyph indices.</td></tr>
+<tr><td style="text-align: right"><code>lig</code></td><td style="text-align: left">contains ligature files---supposedly for use with <code>fontspec</code>.</td></tr>
+<tr><td style="text-align: right"><code>map</code></td><td style="text-align: left">helps <span class="tex">T<sub>E</sub>X</span> figure out which font file corresponds to which font, and whether the font encoding has been altered in any way.</td></tr>
+<tr><td style="text-align: right"><code>ofm</code>/<code>tfm</code></td><td style="text-align: left">contain <span class="tex">T<sub>E</sub>X</span> font metrics files, which are often generated from <code>afm</code> or <code>pfm</code> files. In the context of <span class="tex">T<sub>E</sub>X</span>, these are proper fonts but do not contain actual glyphs (see <code>type1</code>)</td></tr>
+<tr><td style="text-align: right"><code>pk</code></td><td style="text-align: left">pre-prepared fonts based on METAFONT sources</td></tr>
+<tr><td style="text-align: right"><code>sfd</code></td><td style="text-align: left">stands for <b>s</b>pline <b>f</b>ont <b>d</b>atabase, which is a font format used by FontForge. As far as <span class="tex">T<sub>E</sub>X</span>Live 2024 is concerned, it seems to contain subfont database for mapping CJK fonts for something.</td></tr>
+<tr><td style="text-align: right"><code>source</code></td><td style="text-align: left">contains METAFONT source files for generating pre-prepared fonts</td></tr>
+<tr><td style="text-align: right"><code>type1</code></td><td style="text-align: left">contains only the <em>pictures</em> of the characters, so these are fairly useless without some metric information. These therefore go hand-in-hand with <code>ofm</code> and <code>tfm</code> files.</td></tr>
+</tbody></table>
+<p>This suggests that any <strong>PostScript (PS) Type 1 font actually comprises multiple files</strong>, contrary to OpenType (<code>.otf</code>, <code>.otc</code>) and TrueType (<code>.ttf</code>, <code>.ttc</code>) fonts which are <em>single files</em> (see <cite>Phinney, 1997</cite>).</p>
+<h1 id="tackling-the-problem"><a class="zola-anchor" href="#tackling-the-problem" aria-label="Anchor link for: tackling-the-problem">Tackling the problem</a></h1>
+<h2 id="lxfonts"><a class="zola-anchor" href="#lxfonts" aria-label="Anchor link for: lxfonts">LXFonts</a></h2>
+<p><a href="https://ctan.org/pkg/lxfonts">LXFonts</a> is a package that provides a set of fonts for use with <span class="tex">T<sub>E</sub>X</span>. It is a collection of Sli<span class="tex">T<sub>E</sub>X</span> fonts that are based on the Computer Modern fonts with restyled maths fonts, specifically the <em>letters</em> (maths italics, upper and lower Greek); <em>symbols</em> for uppercase calligraphic letters; and the <em>delimiters</em> for large delimiters and operators. The package is just over 10 years old, is largely unmaintained.</p>
+<h3 id="where-is-the-otf"><a class="zola-anchor" href="#where-is-the-otf" aria-label="Anchor link for: where-is-the-otf">Where is the OTF?</a></h3>
+<p>Typically, in conjunction with fontspec, the way to load a font is to simply use the font name, or the file name of a font. If we wanted to load a package-less font, such as <code>Baskervaldx</code>, we can look for its files as follows:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># $TEXMFDIR/fonts
+</span><span style="color:#bf616a;">fd -e</span><span> otf</span><span style="color:#bf616a;"> -e</span><span> ttf baskervaldx
+</span><span style="color:#bf616a;">opentype/public/baskervaldx/Baskervaldx-Bol.otf
+</span><span style="color:#bf616a;">opentype/public/baskervaldx/Baskervaldx-BolIta.otf
+</span><span style="color:#bf616a;">opentype/public/baskervaldx/Baskervaldx-Ita.otf
+</span><span style="color:#bf616a;">opentype/public/baskervaldx/Baskervaldx-Reg.otf
+</span></code></pre>
+<p>This is straight forward, it’s a single directory, with a single or a couple OTF files. When we look for a directory named lxfonts, this is not so evident:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># $TEXMFDIR/fonts
+</span><span style="color:#bf616a;">$</span><span> fd</span><span style="color:#bf616a;"> -t</span><span> dir lxfonts
+</span><span style="color:#bf616a;">map/dvips/lxfonts/
+</span><span style="color:#bf616a;">source/public/lxfonts/
+</span><span style="color:#bf616a;">tfm/public/lxfonts/
+</span><span style="color:#bf616a;">type1/public/lxfonts/
+</span></code></pre>
+<p>For example, the <code>tfm</code> directory contains the following files:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#65737e;"># $TEXMFDIR/fonts/tfm/public/lxfonts
+</span><span style="color:#bf616a;">$</span><span> tree
+</span><span style="color:#96b5b4;">.
+</span><span style="color:#bf616a;">├──</span><span> lcmbsy8.tfm
+</span><span style="color:#bf616a;">├──</span><span> lcmex8.tfm
+</span><span style="color:#bf616a;">├──</span><span> lcmmi8.tfm
+</span><span style="color:#bf616a;">├──</span><span> lcmmib8.tfm
+</span><span style="color:#bf616a;">├──</span><span> lcmsy8.tfm
+</span><span style="color:#bf616a;">├──</span><span> leclb8.tfm
+</span><span style="color:#bf616a;">├──</span><span> lecli8.tfm
+</span><span style="color:#bf616a;">├──</span><span> leclo8.tfm
+</span><span style="color:#bf616a;">├──</span><span> leclq8.tfm
+</span><span style="color:#bf616a;">├──</span><span> llasy8.tfm
+</span><span style="color:#bf616a;">├──</span><span> llasyb8.tfm
+</span><span style="color:#bf616a;">├──</span><span> llcmss8.tfm
+</span><span style="color:#bf616a;">├──</span><span> llcmssb8.tfm
+</span><span style="color:#bf616a;">├──</span><span> llcmssi8.tfm
+</span><span style="color:#bf616a;">├──</span><span> llcmsso8.tfm
+</span><span style="color:#bf616a;">├──</span><span> lmsam8.tfm
+</span><span style="color:#bf616a;">├──</span><span> lmsbm8.tfm
+</span><span style="color:#bf616a;">├──</span><span> ltclb8.tfm
+</span><span style="color:#bf616a;">├──</span><span> ltcli8.tfm
+</span><span style="color:#bf616a;">├──</span><span> ltclo8.tfm
+</span><span style="color:#bf616a;">└──</span><span> ltclq8.tfm
+</span><span>
+</span><span style="color:#bf616a;">1</span><span> directory, 21 files
+</span></code></pre>
+<p>While not shown here, there’s a combination of files to provide lxfonts. Specifically we find <code>.mf</code>, <code>.pfb</code>, <code>.tfm</code> and <code>.map</code>. As a zoomer, I have no idea what these are, and what they do. What we do know is that <code>.tfm</code> files contain designations to glyphs, but not the glyphs themselves. Perhaps we can use these <code>.tfm</code> files to load the fonts in fontspec?</p>
+<h2 id="loading-tfm-works"><a class="zola-anchor" href="#loading-tfm-works" aria-label="Anchor link for: loading-tfm-works">Loading .tfm works!</a></h2>
+<p>Here is what I found—Loading the <code>.tfm</code> works! The manner in which we load fonts in fontspec does not accommodate the loading of Type 1 fonts—indeed—but trial and error suggests that designating fontspec to load the <code>tfm</code> files by specifying the extension, followed by the font name, works. The following example is a successful example at precisely that:</p>
+<!-- loading TFMs work -->
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#96b5b4;">\setmainfont</span><span>{lecl}[
+</span><span>    Extension = .tfm,
+</span><span>    UprightFont = *q8,
+</span><span>    ItalicFont = *i8,
+</span><span>    BoldFont = *b8,
+</span><span>    BoldItalicFont = *o8
+</span><span>]
+</span></code></pre>
+<h3 id="lecl-takes-the-cake"><a class="zola-anchor" href="#lecl-takes-the-cake" aria-label="Anchor link for: lecl-takes-the-cake"><code>lecl</code> takes the cake</a></h3>
+<p>With further testing, I found that <code>lecl</code> is the font we should designate as the text font. While <code>llcmss</code> is the suggested one in the <code>lxfonts</code> documentation, <code>lecl</code> is <code>EC</code> or <code>T1</code> encoded thus contains twice as many glyphs (256) than the <code>OT1</code> encoded <code>llcmss</code> (128). We don’t want to introduce more headaches by having to deal with legacy encoding issues, so it makes most sense to select <code>lecl</code>.</p>
+<h3 id="what-about-others-lcmmi"><a class="zola-anchor" href="#what-about-others-lcmmi" aria-label="Anchor link for: what-about-others-lcmmi">What about others? <code>lcmmi</code></a></h3>
+<p>On that note, it is possible to mix-and-match, such as using <code>lcmmi</code>. According to the source file, <code>lxfonts</code> provides <code>lcmmi</code> which are "math-as-text" fonts. We can thus consider replacing <code>*i8</code> with <code>lcmmi8</code>.</p>
+<h3 id="what-about-the-rest"><a class="zola-anchor" href="#what-about-the-rest" aria-label="Anchor link for: what-about-the-rest">What about the rest?</a></h3>
+<p>Upon cross-examining with the source <code>.dtx</code> file with the list of fonts available, others listed relate to mathematical symbols—we will not worry about that with fontspec.</p>
+<h1 id="wrapping-up"><a class="zola-anchor" href="#wrapping-up" aria-label="Anchor link for: wrapping-up">Wrapping up</a></h1>
+<p>This post concerns the loading of old Type 1 fonts with a modern font loader: fontspec in <span class="latex">L<sup>A</sup>T<sub>E</sub>X</span> using <code>lxfonts</code> as an example. I talked briefly on legacy and modern font file formats, and how they are structured, and how they are loaded in <span class="latex">L<sup>A</sup>T<sub>E</sub>X</span>.
+I found that the <code>.tfm</code> files of the Type 1 font can be loaded, such as <code>lecl</code> in the case of <code>lxfonts</code>.</p>
+<!-- bibliography -->
+<h2 id="references"><a class="zola-anchor" href="#references" aria-label="Anchor link for: references">References</a></h2>
+<p>Phinney, Thomas (1997). <em>TrueType &amp; PostScript Type 1: What's the Difference?</em> <a href="https://tinyurl.com/2vwbmw9y">link</a>.</p>
+
+
+
+      </div> <!-- span9 -->
+
+      <div class="span3 bs-docs-sidebar">
+      
+        <h1>Search</h1>
+        <form class="form-search">
+          <input id="search" type="text" class="input-large search-query">
+        </form>
+        <div class="search-results">
+          <div class="search-results__items"></div>
+        </div>
+        <p></p>
+        <h1>Categories</h1>
+        <ul class="nav nav-list bs-docs-sidenav">
+          
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/categories/academia">academia</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/categories/latex">latex</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/categories/linguistics">linguistics</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/categories/personal">personal</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/categories/politics">politics</a></li>
+          
+        </ul>
+        <p></p>
+        <h1>Tags</h1>
+        <ul class="nav nav-list bs-docs-sidenav">        
+          
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/tags/bourdieu">bourdieu</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/tags/english">english</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/tags/fonts">fonts</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/tags/fontspec">fontspec</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/tags/korea">korea</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/tags/spelling">spelling</a></li>
+          
+            <li><a href="https:&#x2F;&#x2F;leothelion.wtf/tags/writing">writing</a></li>
+              
+        </ul>
+      
+      </div>
+
+    </div> <!-- row -->
+  </div> <!-- container navmargin -->
+
+  <footer class="container">
+    <hr class="soften">
+    <p>
+        2025 &copy;
+        <a href="https:&#x2F;&#x2F;leothelion.wtf">leothelion</a>
+        
+        |
+        
+        
+        
+        
+        <a href="https://github.com/ponte-vecchio" target="_blank">GitHub</a>
+        |
+        
+        
+        
+        <a href="https:&#x2F;&#x2F;leothelion.wtf/rss.xml">RSS</a>
+        
+        |
+        Built on <a href="https://getzola.org" target="_blank">Zola</a>
+    </p>
+  </footer>
+
+  <script src="https://leothelion.wtf/js/jquery.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-386.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-transition.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-alert.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-modal.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-dropdown.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-scrollspy.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-tab.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-tooltip.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-popover.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-button.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-collapse.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-carousel.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-typeahead.js"></script>
+  <script src="https://leothelion.wtf/js/bootstrap-affix.js"></script>
+  <script src="https://leothelion.wtf/js/zola.386.js"></script>
+  <script src="https://leothelion.wtf/js/search.js"></script>
+  <script src="https://leothelion.wtf/elasticlunr.min.js"></script>
+  <script src="https://leothelion.wtf/search_index.en.js"></script>
+</body>
+</html>
